@@ -9,32 +9,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name:  Checkout code
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name:  Set up Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      - name:  Install dependencies
+      - name: Install dependencies
         run: npm install
         working-directory: ./app
 
-      - name: Run tests   
+      - name: Run tests
         run: |
-            chmod +x ./node_modules/.bin/jest
-            ./node_modules/.bin/jest --runInBand --detectOpenHandles
+          chmod +x ./node_modules/.bin/jest
+          ./node_modules/.bin/jest --runInBand --detectOpenHandles
         working-directory: ./app
 
-      - name: 🐳 Log in to Docker Hub
+      - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: 🔧 Build Docker image
+      - name: Build Docker image
         run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/team-app ./app
 
-      - name: 🚀 Push to Docker Hub
+      - name: Push to Docker Hub
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/team-app
