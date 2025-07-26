@@ -3,6 +3,22 @@ variable "public_key_path" {
   default = "~/.ssh/id_rsa.pub"
 }
 
+variable "aws_access_key" {
+  description = "AWS access key"
+  type        = string
+}
+
+variable "aws_secret_key" {
+  description = "AWS secret key"
+  type        = string
+}
+
+variable "aws_session_token" {
+  description = "AWS session token"
+  type        = string
+}
+
 variable "dockerhub_username" {
-  type = string
+  description = "Docker Hub username"
+  type        = string
 }
