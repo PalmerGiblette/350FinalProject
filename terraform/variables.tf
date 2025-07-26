@@ -1,14 +1,6 @@
-variable "aws_access_key" {
-  type = string
-}
-
-variable "aws_secret_key" {
-  type = string
-}
-
 variable "public_key_path" {
   type    = string
-  default = "~/.ssh/id_rsa.pub" # Update if using a different key
+  default = "~/.ssh/id_rsa.pub"
 }
 
 variable "dockerhub_username" {

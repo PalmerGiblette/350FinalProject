@@ -1,7 +1,5 @@
 provider "aws" {
-  region     = "us-west-2" # Change to your preferred region
-  access_key = var.aws_access_key
-  secret_key = var.aws_secret_key
+  region = "us-west-2" # Make sure this matches your Learner Lab region
 }
 
 resource "aws_key_pair" "deployer" {
@@ -29,18 +27,18 @@ resource "aws_security_group" "app_sg" {
 }
 
 resource "aws_instance" "app_server" {
-  ami             = "ami-0c55b159cbfafe1f0" # Ubuntu 22.04 us-west-2
+  ami             = "ami-0c55b159cbfafe1f0" # Ubuntu 22.04 in us-west-2
   instance_type   = "t2.micro"
   key_name        = aws_key_pair.deployer.key_name
   security_groups = [aws_security_group.app_sg.name]
 
   user_data = <<-EOF
               #!/bin/bash
-              sudo apt-get update
-              sudo apt-get install -y docker.io
-              sudo systemctl start docker
-              sudo docker pull ${var.dockerhub_username}/team-app
-              sudo docker run -d -p 3000:3000 ${var.dockerhub_username}/team-app
+              apt-get update
+              apt-get install -y docker.io
+              systemctl start docker
+              docker pull ${var.dockerhub_username}/team-app
+              docker run -d -p 3000:3000 ${var.dockerhub_username}/team-app
             EOF
 
   tags = {
