@@ -1,7 +1,4 @@
-variable "public_key_path" {
-  type    = string
-  default = "~/.ssh/id_rsa.pub"
-}
+
 
 variable "aws_access_key" {
   description = "AWS access key"
