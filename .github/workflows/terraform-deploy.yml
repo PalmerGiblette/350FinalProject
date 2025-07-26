@@ -1,7 +1,7 @@
 name: CD - Deploy App with Terraform
 
 on:
-  workflow_dispatch:  # Manual trigger
+  workflow_dispatch:
   push:
     branches: [main]
 
@@ -18,18 +18,17 @@ jobs:
         with:
           terraform_version: 1.5.7
 
-      - name: 📦 Initialize Terraform
-        working-directory: ./terraform
-        run: terraform init
+      - name: 📦 Terraform Init
+        run: terraform -chdir=terraform init
 
-      - name: 🧠 Terraform plan
-        working-directory: ./terraform
-        run: terraform plan -var "aws_access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" \
-                             -var "aws_secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
-                             -var "dockerhub_username=${{ secrets.DOCKERHUB_USERNAME }}"
+      - name: 🧠 Terraform Plan
+        run: terraform -chdir=terraform plan \
+          -var="aws_access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" \
+          -var="aws_secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
+          -var="dockerhub_username=${{ secrets.DOCKERHUB_USERNAME }}"
 
-      - name: 🚀 Terraform apply
-        working-directory: ./terraform
-        run: terraform apply -auto-approve -var "aws_access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" \
-                                                 -var "aws_secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
-                                                 -var "dockerhub_username=${{ secrets.DOCKERHUB_USERNAME }}"
+      - name: 🚀 Terraform Apply
+        run: terraform -chdir=terraform apply -auto-approve \
+          -var="aws_access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" \
+          -var="aws_secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
+          -var="dockerhub_username=${{ secrets.DOCKERHUB_USERNAME }}"
