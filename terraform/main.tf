@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-west-2" # Make sure this matches your Learner Lab region
+  region = "us-east-1"
 }
 
 resource "aws_key_pair" "deployer" {
@@ -27,7 +27,7 @@ resource "aws_security_group" "app_sg" {
 }
 
 resource "aws_instance" "app_server" {
-  ami             = "ami-0c55b159cbfafe1f0" # Ubuntu 22.04 in us-west-2
+  ami             = "ami-0c55b159cbfafe1f0" # Ubuntu 22.04 in us-east-1
   instance_type   = "t2.micro"
   key_name        = aws_key_pair.deployer.key_name
   security_groups = [aws_security_group.app_sg.name]
